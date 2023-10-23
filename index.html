@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Registration Form</title>
+    <style>
+      /* Use a gradient background for the body */
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background: rgba(38, 0, 255, 0.717);
+      }
+
+      /* Add some box shadow and border radius to the form */
+      form {
+        width: 400px;
+        padding: 20px;
+        border: 1px solid #fff764;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.3);
+        -webkit-backdrop-filter: blur(15px);
+        backdrop-filter: blur(15px);
+      }
+
+      /* Use a custom font for the heading */
+      h2 {
+        font-family: "Poppins", sans-serif;
+        font-weight: bold;
+        color: #fff764;
+        text-align: center;
+      }
+
+      /* Style the input fields */
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="date"] {
+        width: calc(100% - 20px);
+        color: #fff764;
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid #fff764;
+        outline: none;
+        background: transparent;
+        resize: none;
+      }
+
+      /* Change the border color on focus */
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      input[type="password"]:focus,
+      input[type="date"]:focus {
+        border-color: #6af46e;
+      }
+
+      /* Style the select element */
+      select {
+        width: calc(100% - 20px);
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        outline: none;
+      }
+
+      /* Change the border color on focus */
+      select:focus {
+        border-color: #4caf50;
+      }
+
+      /* Style the file input */
+      input[type="file"] {
+        margin-bottom: 15px;
+      }
+
+      /* Style the submit button */
+      input[type="submit"] {
+        width: 100%;
+        background-color: #4caf50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        /* Add a transition effect for the button */
+        transition-property: transform, box-shadow; /* animate the transform and box-shadow properties */
+        transition-duration: 0.3s; /* set the duration of the transition */
+      }
+
+      /* Scale up the button and add some box shadow on hover */
+      input[type="submit"]:hover {
+        transform: scale(1.05); /* scale up the button by 5% */
+        box-shadow: inset 0 -3px rgba(0, 0, 0, 0.1); /* add an inset shadow at the bottom of the button */
+      }
+
+      /* Style the password strength indicator */
+      #password-strength-indicator {
+        width: calc(100% - 20px);
+        height: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+        transition-property: width, background-color; /* animate the width and background color */
+        transition-duration: 0.5s; /* set the duration of the animation */
+      }
+
+      /* Style the weak password strength */
+      .weak {
+        width: calc(
+          25% - 20px
+        ); /* set the width to a quarter of the full width */
+        background-color: #ff7f7f; /* set the background color to red */
+      }
+
+      /* Style the medium password strength */
+      .medium {
+        width: calc(50% - 20px); /* set the width to half of the full width */
+        background-color: #ffee77; /* set the background color to yellow */
+      }
+
+      /* Style the strong password strength */
+      .strong {
+        width: calc(100% - 20px); /* set the width to the full width */
+        background-color: #a7f070; /* set the background color to green */
+      }
+    </style>
+  </head>
+  <body>
+    <form id="user-form" onsubmit="return handleSubmit(event)">
+      <!-- add an id and an onsubmit attribute to the form -->
+      <h2>User Registration Form</h2>
+      <input type="text" placeholder="First Name" />
+      <input type="text" placeholder="Last Name" />
+      <input type="email" placeholder="Email Address" />
+      <input
+        type="password"
+        id="password"
+        onkeyup="checkPasswordStrength()"
+        placeholder="Password"
+      />
+      <div id="password-strength-indicator"></div>
+      <br />
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password"
+      />
+
+      <input type="date" placeholder="Date Of Birth" />
+      <select title="Please choose your Gender">
+        <option value="" disabled selected>Gender</option>
+        <!-- disable and select the first option by default -->
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <input type="file" placeholder="file" />
+      <br />
+      <label for="terms">I agree to the Terms and Conditions</label>
+      <input type="checkbox" id="terms" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <!-- Add a script tag for the JavaScript code -->
+    <script>
+      function checkPasswordStrength() {
+        var password = document.getElementById("password").value;
+        var strengthIndicator = document.getElementById(
+          "password-strength-indicator"
+        );
+
+        if (password.length > 8) {
+          strengthIndicator.className = "strong";
+        } else if (password.length > 6 && password.length < 8) {
+          strengthIndicator.className = "medium";
+        } else {
+          strengthIndicator.className = "weak";
+        }
+      }
+
+      var passwordInput = document.getElementById("password");
+      var confirmPasswordInput = document.getElementById("confirmPassword");
+
+      // Add an event listener to the confirm password field
+      confirmPasswordInput.addEventListener("blur", checkPasswordMatch);
+
+      function checkPasswordMatch() {
+        var password = passwordInput.value;
+        var confirmPassword = confirmPasswordInput.value;
+
+        if (password !== confirmPassword) {
+          alert("Passwords do not match. Please re-enter.");
+          confirmPasswordInput.value = ""; // Clear the confirm password field
+        }
+      }
+      function handleSubmit(event) {
+        event.preventDefault(); // prevent the default form submission
+        var form = document.getElementById("user-form"); // get the form element by id
+        var termsCheckbox = document.getElementById("terms");
+        // Check if all the required fields are filled
+        if (form.checkValidity() && termsCheckbox.checked) {
+          form.reset(); // reset the form fields
+          alert("Form submitted successfully!"); // show a popup message
+        } else {
+          if (!termsCheckbox.checked) {
+            alert("Please agree to the Terms and Conditions.");
+          } else {
+            alert("Please fill out all the fields.");
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
